@@ -23,7 +23,7 @@ function animateOnLoad(){
 	setTimeout(function(){
 		$('#infoText').css('visibility', 'visible');
 		$('#infoText').addClass('animated fadeInDown');
-	},2000); 
+	},3000); 
 
 
 	setTimeout(function(){
@@ -31,8 +31,4 @@ function animateOnLoad(){
 		$('#logo').css('display', 'inline-block');
 		$('#logo').addClass('animated rubberBand');
 	},6000); 
-
-
-
-	//$('.row#formField').addClass('animated fadeInUp');
 }
