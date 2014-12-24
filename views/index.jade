@@ -3,29 +3,31 @@ extends layout
 block content
 	.background
 		.overlay
-			.container.u-max-full-width
-				.row
-					.one-half.column(style='')
-						img(src='img/logo_with_BG.png' height='28px' width='98px' style='margin-top: 20px;')
-						img(src='img/logo_Face.png' height='40px' width='35px' style='margin-left: 20px; right 0px;')
-				.row
-					.two.columns(style='padding: 30px;')
-					.ten.columns(style='margin-top: 150px;')
-						span(style='font-size: 40px; font-weight: bold; line-height: 70%;')
-							|Share 
-						|a live Collaborative 
-						br
-						|Music 
-						span(style='font-size: 40px; font-weight: bold;')
-							|Playlist
-				.row
-					.two.columns(style='padding: 30px;')
-					.ten.columns(style='margin-top:30px;')
-						input#create_Session(type='text' placeholder='Enter a text')
-						input#Btn(type='button' value='Create Playlist')
-				.row
-					.twelve.columns(style='font-size: 12px; text-align: right; margin-top: 280px;') 
-						span(style='margin:20px;')
-							|About us
-						span(style='margin:20px;')
-							|Contact us
+	.container.u-max-full-width#main
+		.row
+			.one-half.column(style='')
+				img#logo(src='img/logo_with_BG.png' height='28px' width='98px' style='margin-top: 20px;')
+				img(src='img/logo_Face.png' height='40px' width='35px' style='margin-left: 20px; right 0px;')
+		.row
+			.two.columns(style='padding: 30px;')
+			.ten.columns#infoText(style='margin-top: 150px;')
+				span(style='font-size: 40px; font-weight: bold; line-height: 70%;')
+					|Share 
+				|a live Collaborative 
+				br
+				|Music 
+				span(style='font-size: 40px; font-weight: bold;')
+					|Playlist
+		.row#formField
+			.two.columns(style='padding: 30px;')
+			.ten.columns(style='margin-top:30px;')
+				input#create_Session(type='text' placeholder='Enter a text')
+				input#Btn(type='button' value='Create Playlist')
+		.row
+			.twelve.columns(style='font-size: 12px; text-align: right; margin-top: 250px;')
+				span(style='margin:20px;')
+					a(href='#' style='text-decoration: none; color: white;')
+						|About us
+				span(style='margin:20px;')
+					a(href='#' style='text-decoration: none; color: white;')
+						|Contact us
