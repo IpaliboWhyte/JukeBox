@@ -35,6 +35,10 @@ html,body{
 	background-color: rgba(48,54,53,0.95);
 }
 
+.loadingPanel{
+
+}
+
 input#create_Session{
 	width: 50%;
 	background: none;
@@ -60,6 +64,23 @@ input#Btn{
 }
 
 input#Btn:hover{
+	color: white;
+	background-color: #50E3C2;
+	border-color: #50E3C2;
+}
+
+input#Btn_joinRoomBtn{
+	width: 200px;
+	height: 50px;
+	border-color: white;
+	border-style: solid;
+	border-width: 3px;
+	color: black;
+	-webkit-transition: 0.25s;
+}
+
+input#Btn_joinRoomBtn:hover{
+	color: white;
 	background-color: #50E3C2;
 	border-color: #50E3C2;
 }
@@ -117,6 +138,60 @@ input#Btn:hover{
 	}
 
 }
+
+.sk-spinner-chasing-dots.sk-spinner {
+  margin: 0 auto;
+  top: 10px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  text-align: center;
+  -webkit-animation: sk-chasingDotsRotate 2s infinite linear;
+          animation: sk-chasingDotsRotate 2s infinite linear; }
+.sk-spinner-chasing-dots .sk-dot1, .sk-spinner-chasing-dots .sk-dot2 {
+  width: 60%;
+  height: 60%;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  background-color: #fff;
+  border-radius: 100%;
+  -webkit-animation: sk-chasingDotsBounce 2s infinite ease-in-out;
+          animation: sk-chasingDotsBounce 2s infinite ease-in-out; }
+.sk-spinner-chasing-dots .sk-dot2 {
+  top: auto;
+  bottom: 0px;
+  -webkit-animation-delay: -1s;
+          animation-delay: -1s; }
+
+@-webkit-keyframes sk-chasingDotsRotate {
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg); } }
+
+@keyframes sk-chasingDotsRotate {
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg); } }
+
+@-webkit-keyframes sk-chasingDotsBounce {
+  0%, 100% {
+    -webkit-transform: scale(0);
+            transform: scale(0); }
+
+  50% {
+    -webkit-transform: scale(1);
+            transform: scale(1); } }
+
+@keyframes sk-chasingDotsBounce {
+  0%, 100% {
+    -webkit-transform: scale(0);
+            transform: scale(0); }
+
+  50% {
+    -webkit-transform: scale(1);
+            transform: scale(1); } }
 
 #infoText{
 	visibility: hidden;

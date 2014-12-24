@@ -1,16 +1,58 @@
 var socket = io.connect('http://localhost:4000');
 
-function creatRoom(){
-	socket.emit('createSession', {sessionName: 'RichGang'});
-}
+function createRoom(name){
+	socket.emit('createRoom', name);
+	socket.on('join', function(roomName){
 
-function joinRoom(){
-	socket.emit('joinSession', {sessionName: 'RichGang'})
+		socket.emit('joinRoom', name);
+		setTimeout(function(){
+		animateSpinnerOut();
+			window.location.href = "/"+name;
+		},2000);
+
+	});
+
+	socket.on('joinError', function(error){
+
+		setTimeout(function(){
+			alert(error);
+			animateSpinnerOut();
+		},2000);
+	 
+	});
 }
 
 $(document).ready(function(){
 	animateOnLoad();
+
+	$('input#Btn').click(function(){
+		handleCreateClick();
+	});
+
+
+	$('input#Btn_joinRoomBtn').click(function(){
+		socket.emit('joinRoom', $(this).attr('data-room-name'));
+	});
+
+
 });
+
+function animateSpinnerOut(){
+	$('#spinner').addClass('animated bounceOut');
+	$('#spinner').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+		$('#spinner').css('display', 'none');
+	});
+}
+
+function handleCreateClick(){
+	animateSpinner();
+	createRoom($('input#create_Session').val());
+}
+
+function animateSpinner(){
+	$('#spinner').css('display', 'inline-block');
+	$('#spinner').addClass('animated bounceIn');
+}
 
 function animateOnLoad(){
 

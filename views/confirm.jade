@@ -1,0 +1,11 @@
+extends layout
+
+block content
+	.container.u-max-full-width#main(style='color: black')
+		.row
+			.twelve.columns(style='text-align: center; margin-top: 150px;')
+				h1
+					|	Join #{title}
+		.row
+			.twelve.columns(style='text-align: center')
+				input#Btn_joinRoomBtn(data-room-name = '#{title}' type='button' value='Confirm')
