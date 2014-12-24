@@ -5,10 +5,25 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var express = require("express");
+var app = express();
+
+// Use port 4000
+app.set('port', process.env.PORT || 4000);
+
+// listen to port 4000
+var server = app.listen(app.get('port'), function() {
+  console.log('Express server listening on port ' + server.address().port);
+});
+
+// socket.io will now listen to this port
+var io = require('socket.io').listen(server);
+
+// export our io variable to the index route were its used
+module.exports = io;
+
 var routes = require('./routes/index');
 var users = require('./routes/user');
-
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
