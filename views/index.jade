@@ -1,37 +1,41 @@
 extends layout
 
 block content
-	.background
-		.overlay
-	.container.u-max-full-width#main
-		.row
-			.one-half.column(style='')
-				img#logo(src='img/logo_with_BG.png' height='28px' width='98px' style='margin-top: 20px;')
-				img(src='img/logo_Face.png' height='40px' width='35px' style='margin-left: 20px; right 0px;')
-		.row
-			.two.columns(style='padding: 30px;')
-			.ten.columns#infoText(style='margin-top: 150px;')
-				span(style='font-size: 40px; font-weight: bold; line-height: 70%;')
-					|Share 
-				|a live Collaborative 
-				br
-				|Music 
-				span(style='font-size: 40px; font-weight: bold;')
-					|Playlist
-		.row#formField
-			.two.columns(style='padding: 30px;')
-			.ten.columns(style='margin-top:30px;')
-				input#create_Session(type='text' placeholder='Enter a name')
-				input#Btn(type='button' value='Create Playlist')
-				.span#spinner(style='display: none;')
-					.sk-spinner.sk-spinner-chasing-dots
-						.sk-dot1
-						.sk-dot2
-		.row
-			.twelve.columns(style='font-size: 11px; text-align: right; margin-top: 250px;')
-				span(style='margin:20px;')
-					a(href='#' style='text-decoration: none; color: white;')
-						|ABOUT US
-				span(style='margin:20px;')
-					a(href='#' style='text-decoration: none; color: white;')
-						|CONTACT US
+	#main
+		.background
+			.overlay
+		.container.u-max-full-width#mainBody
+			.row
+				.one-half.column(style='')
+					img#logo(src='img/logo_with_BG.png' height='28px' width='98px' style='margin-top: 20px;')
+					img(src='img/logo_Face.png' height='34px' width='30px' style='margin-left: 20px; right 0px;')
+			.row
+				.two.columns(style='padding: 30px;')
+				.ten.columns#infoText(style='margin-top: 150px;')
+					span(style='font-size: 40px; font-weight: bold; line-height: 70%;')
+						|Share 
+					|a live Collaborative 
+					br
+					|Music 
+					span(style='font-size: 40px; font-weight: bold;')
+						|Playlist
+			.row#formField
+				.two.columns(style='padding: 30px;')
+				.ten.columns(style='margin-top:30px;')
+					input#create_Session(type='text' autocomplete="off" placeholder='Enter a name' required='required')
+					input#Btn(type='submit' value='Create Playlist')
+					.span#spinner(style='display: none;')
+						.sk-spinner.sk-spinner-chasing-dots
+							.sk-dot1
+							.sk-dot2
+			.row
+				.two-thirds.column(style='padding: 30px;')
+				.one-third.column(style='font-size: 10px; margin-top: 250px; margin-bottom: 30px; text-align: center;')
+					span(style='margin:25px;')
+						a(href='#' style='text-decoration: none; color: white;')
+							|ABOUT US
+					span(style='margin:20px;')
+						a(href='#' style='text-decoration: none; color: white;')
+							|CONTACT US
+		.errorPanel#errorPan
+			| Sorry

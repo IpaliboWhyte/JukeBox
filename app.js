@@ -9,7 +9,7 @@ var express = require("express");
 var app = express();
 
 // Use port 4000
-app.set('port', process.env.PORT || 4000);
+app.set('port', process.env.PORT || 3000);
 
 // listen to port 4000
 var server = app.listen(app.get('port'), function() {
