@@ -20,7 +20,7 @@ router.get('/:id', function(req, res) {
 /* GET home page. */
 router.get('/', function(req, res) {
 
-	res.render('index', { title: 'JukeBox Home' });
+	res.render('index', { title: 'JukeBox - Share a Playlist' });
 
 });
 
