@@ -1,6 +1,18 @@
 extends layout
 
 block content
+	.container.u-max-full-width.static-confirm(style='color: black;')
+		.row
+			.one-half.column(style='')
+				img#logo(src='img/logo_with_BG.png' height='28px' width='98px' style='margin-top: 20px;')
+		.row
+			.twelve.columns(style='text-align: center; margin-top: 150px;')
+				h1
+					|	Join #{title}
+		.row
+			.twelve.columns(style='text-align: center')
+				input#Btn_joinRoomBtn(data-room-name = '#{title}' type='button' value='Confirm')
+
 	.u-full-width.container.u-max-full-width#main(style='color: black;')
 		.row(style='color: white')
 			.two.columns(style='padding: 15px; text-align: center;')
@@ -22,25 +34,9 @@ block content
 				input#searchBar(type='text' placeholder='Search for a song')
 		.trackContainer
 
-
 	//
 		.row.track
 			.twelve.columns.littleBoxContainer(style='')
 				img.littleBoxImage(src='img/KanyeWest.png' height='150px' width='150px' style='margin-left: 80px;')
 				.littleBoxText
 					|I Don't Fuck With You (Ft. E-40)(Prod. DJ Mustard Kanye West / Co-Prod. DJ Dahi keY Wane)
-
-
-	//
-		.container.u-max-full-width#main.static-confirm(style='color: black')
-			.row
-				.one-half.column(style='')
-					img#logo(src='img/logo_with_BG.png' height='28px' width='98px' style='margin-top: 20px;')
-					img(src='img/logo_Face.png' height='40px' width='35px' style='margin-left: 20px; right 0px;')
-			.row
-				.twelve.columns(style='text-align: center; margin-top: 150px;')
-					h1
-						|	Join #{title}
-			.row
-				.twelve.columns(style='text-align: center')
-					input#Btn_joinRoomBtn(data-room-name = '#{title}' type='button' value='Confirm')

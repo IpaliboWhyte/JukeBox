@@ -4,14 +4,18 @@ var searching = false;
 
 function createRoom(name){
 	socket.emit('createRoom', name);
-	socket.on('join', function(roomName){
 
-		socket.emit('joinRoom', name);
+
+}
+
+$(document).ready(function(){
+
+	socket.on('join', function(roomName){
 
 		setTimeout(function(){
 			animateSpinnerOut();
 			fadeOutpage();
-			window.location.href = '/'+name;
+			window.location.href = '/'+roomName;
 		},2000);
 
 	});
@@ -24,9 +28,10 @@ function createRoom(name){
 		},2000);
 	 
 	});
-}
 
-$(document).ready(function(){
+	socket.on('userJoined', function(data){
+		console.log(data);
+	});
 
 	SC.initialize({
 		client_id: '9ef3139dcf622c37539360edd1909e53',
@@ -36,12 +41,12 @@ $(document).ready(function(){
 	$('input#searchBar').bind('input', function() {
 
 		animateSpinner();
+
 		if(!searching && $(this).val() !== ''){
 			searching = true;
     		
-
 	    	//Empty the container first before appending search results
-	    	$('.trackContainer').text('');
+	    	$('.trackContainer').empty('');
 	       	SC.get('/tracks', { q: $(this).val(), limit: 50, artwork_url: 'crop'}, function(tracks) {
 	       		animateSpinnerOut();
 	       		searching = false;
@@ -52,7 +57,7 @@ $(document).ready(function(){
 		       			var artwork = entry.artwork_url.replace("large.jpg", "crop.jpg");
 		       			$("<div class='littleBoxImage "+i+"' style= 'background-image: url("+artwork+")' </div>").clone().appendTo(".twelve.columns.littleBoxContainer."+i);
 		       		}else{
-		       			$("<div class='littleBoxImage "+i+"' src='img/oops.png' </div>").clone().appendTo(".twelve.columns.littleBoxContainer."+i);
+		       			$("<div class='littleBoxImage "+i+"' style= 'background-image: url(img/oops.png)' </div>").clone().appendTo(".twelve.columns.littleBoxContainer."+i);
 		       		}	
 		       		$("<div class='littleBoxText'>"+entry.title+"</div>").clone().appendTo(".twelve.columns.littleBoxContainer."+i);
 	       		});
@@ -72,6 +77,7 @@ $(document).ready(function(){
 
 
 	$('input#Btn_joinRoomBtn').click(function(){
+		$('.static-confirm').css('display', 'none');
 		socket.emit('joinRoom', $(this).attr('data-room-name'));
 	});
 

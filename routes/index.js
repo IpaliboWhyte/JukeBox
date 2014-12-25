@@ -40,8 +40,13 @@ io.on('connection', function (socket) {
 	});
 
 	socket.on('joinRoom', function(room){
-		console.log('a user just joined room: '+ room);
+
 		socket.join(room);
+	
+		console.log('connection !');
+
+		io.to(room).emit('userJoined', 'hi im in room ' + room );
+
 	});
 
 });

@@ -44,7 +44,11 @@ html,body{
 }
 
 .static-confirm{
-	background: green;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(255,255,255,0.95);
+	position: absolute;
+	z-index: 1000;
 }
 
 input#create_Session{
@@ -161,6 +165,16 @@ img.littleBoxImage{
 	font-size: 12px;
 	text-align: center;
 	box-shadow: 0px 3px 2px rgba(43,40,35,0.6);
+}
+
+.row.track{
+	-webkit-transition: 0.15s;
+}
+
+.row.track:hover{
+	cursor: pointer;
+	background-color: rgba(80,227,194,0.9);
+	color: white;
 }
 
 @-webkit-keyframes animatedBackground {
