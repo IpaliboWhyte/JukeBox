@@ -1,4 +1,5 @@
 var socket = io.connect('http://localhost:3000');
+var tracks = [];
 
 function createRoom(name){
 	socket.emit('createRoom', name);
@@ -9,7 +10,7 @@ function createRoom(name){
 		setTimeout(function(){
 			animateSpinnerOut();
 			fadeOutpage();
-			window.location.href = "/"+name;
+			window.location.href = '/'+name;
 		},2000);
 
 	});
@@ -25,6 +26,36 @@ function createRoom(name){
 }
 
 $(document).ready(function(){
+
+	SC.initialize({
+		client_id: '9ef3139dcf622c37539360edd1909e53',
+		redirect_uri: '636f66b1214404e96c75cfb83175a6f2',
+	});
+
+	$("input#searchBar").keyup(function(event){
+	    if(event.keyCode == 13){
+
+    		animateSpinner();
+
+	    	//Empty the container first before appending search results
+	    	$('.trackContainer').text('');
+	       	SC.get('/tracks', { q: $(this).val(), limit: 50}, function(tracks) {
+	       		animateSpinnerOut();
+	       		tracks.forEach(function(entry,i){
+		       		$("<div class='row track "+i+"'></div>").clone().appendTo('.trackContainer');
+		       		$("<div class='twelve columns littleBoxContainer "+i+"'></div>").clone().appendTo(".row.track."+i);
+		       		if(entry.artwork_url){
+		       			$("<img class='littleBoxImage "+i+"' src='"+entry.artwork_url+"'>").clone().appendTo(".twelve.columns.littleBoxContainer."+i);
+		       		}else{
+		       			$("<img class='littleBoxImage "+i+"' src='img/oops.png'>").clone().appendTo(".twelve.columns.littleBoxContainer."+i);
+		       		}	
+		       		$("<div class='littleBoxText'>"+entry.title+"</div>").clone().appendTo(".twelve.columns.littleBoxContainer."+i);
+	       		});
+	       		console.log(tracks);
+			});
+	    }
+	});
+
 	animateOnLoad();
 
 	$('input#Btn').click(function(){

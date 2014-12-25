@@ -7,6 +7,10 @@ block content
 				a(href='/')
 					img#logo(src='img/logo_with_BG.png' height='35px' width='120px' style='')
 			.ten.columns(style='padding: 15px; background-color:#50E3C2')
+				.span#spinner.spinnerCT(style='display: none;')
+					.sk-spinner.sk-spinner-chasing-dots
+						.sk-dot1
+						.sk-dot2
 				img(src='img/logo_Face.png' height='34px' width='30px' style='margin-left: 10px; display: inline; position: absolute;')
 				span(style='margin-left: 50px;')
 					| #{title}
@@ -16,6 +20,15 @@ block content
 		.row
 			.twelve.columns(style='')
 				input#searchBar(type='text' placeholder='Search for a song')
+		.trackContainer
+
+
+	//
+		.row.track
+			.twelve.columns.littleBoxContainer(style='')
+				img.littleBoxImage(src='img/KanyeWest.png' height='150px' width='150px' style='margin-left: 80px;')
+				.littleBoxText
+					|I Don't Fuck With You (Ft. E-40)(Prod. DJ Mustard Kanye West / Co-Prod. DJ Dahi keY Wane)
 
 
 	//
