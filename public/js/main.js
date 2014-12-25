@@ -1,5 +1,6 @@
 var socket = io.connect('http://localhost:3000');
 var tracks = [];
+var searching = false;
 
 function createRoom(name){
 	socket.emit('createRoom', name);
@@ -32,28 +33,31 @@ $(document).ready(function(){
 		redirect_uri: '636f66b1214404e96c75cfb83175a6f2',
 	});
 
-	$("input#searchBar").keyup(function(event){
-	    if(event.keyCode == 13){
+	$('input#searchBar').bind('input', function() {
 
-    		animateSpinner();
+		animateSpinner();
+		if(!searching && $(this).val() !== ''){
+			searching = true;
+    		
 
 	    	//Empty the container first before appending search results
 	    	$('.trackContainer').text('');
-	       	SC.get('/tracks', { q: $(this).val(), limit: 50}, function(tracks) {
+	       	SC.get('/tracks', { q: $(this).val(), limit: 50, artwork_url: 'crop'}, function(tracks) {
 	       		animateSpinnerOut();
+	       		searching = false;
 	       		tracks.forEach(function(entry,i){
 		       		$("<div class='row track "+i+"'></div>").clone().appendTo('.trackContainer');
 		       		$("<div class='twelve columns littleBoxContainer "+i+"'></div>").clone().appendTo(".row.track."+i);
 		       		if(entry.artwork_url){
-		       			$("<img class='littleBoxImage "+i+"' src='"+entry.artwork_url+"'>").clone().appendTo(".twelve.columns.littleBoxContainer."+i);
+		       			var artwork = entry.artwork_url.replace("large.jpg", "crop.jpg");
+		       			$("<div class='littleBoxImage "+i+"' style= 'background-image: url("+artwork+")' </div>").clone().appendTo(".twelve.columns.littleBoxContainer."+i);
 		       		}else{
-		       			$("<img class='littleBoxImage "+i+"' src='img/oops.png'>").clone().appendTo(".twelve.columns.littleBoxContainer."+i);
+		       			$("<div class='littleBoxImage "+i+"' src='img/oops.png' </div>").clone().appendTo(".twelve.columns.littleBoxContainer."+i);
 		       		}	
 		       		$("<div class='littleBoxText'>"+entry.title+"</div>").clone().appendTo(".twelve.columns.littleBoxContainer."+i);
 	       		});
-	       		console.log(tracks);
 			});
-	    }
+		}
 	});
 
 	animateOnLoad();
