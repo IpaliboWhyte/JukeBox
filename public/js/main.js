@@ -1,4 +1,5 @@
 var socket = io.connect();
+var audioElement = document.createElement('audio');
 var tracks = [];
 var searching = false;
 var currentTrack;
@@ -11,7 +12,9 @@ function createRoom(name){
 
 }
 
-$(document).ready(function(){
+$(window).load(function(){
+
+	audioElement.setAttribute('src', '../sounds/welcome.wav');
 
 	socket.on('join', function(roomName){
 
@@ -33,6 +36,8 @@ $(document).ready(function(){
 	});
 
 	socket.on('userJoined', function(data){
+		audioElement.play();
+
 		$('#notify-icon').addClass('animated rubberBand');
 		
 		// Animation
@@ -52,6 +57,7 @@ $(document).ready(function(){
 		client_id: '9ef3139dcf622c37539360edd1909e53',
 		redirect_uri: '636f66b1214404e96c75cfb83175a6f2',
 	});
+
 
 	$('input#searchBar').bind('input', function() {
 
@@ -247,5 +253,5 @@ function animateOnLoad(){
 		$('#logo').css('display', 'none');
 		$('#logo').css('display', 'inline-block');
 		$('#logo').addClass('animated rubberBand');
-	},6000); 
+	},4000); 
 }
