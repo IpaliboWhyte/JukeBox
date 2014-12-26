@@ -108,6 +108,7 @@ input#searchBar{
 	border: none;
     border-bottom: 1px solid #EBEBEB;
     border-top: 1px solid #EBEBEB;
+    padding-left: 40px;
 }
 
 .littleBoxContainer{
@@ -144,10 +145,8 @@ img.littleBoxImage{
 	height: 130px;
 	display: inline-block;
 	font-size: 24px;
-	font-weight: bold;
 	overflow: hidden;
 }
-
 
 .errorPanel{
 	position:absolute;

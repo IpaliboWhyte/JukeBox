@@ -1,10 +1,11 @@
-var socket = io.connect('http://localhost:3000');
+var socket = io.connect();
 var tracks = [];
 var searching = false;
+var currentTrack;
 
 function createRoom(name){
-	socket.emit('createRoom', name);
 
+	socket.emit('createRoom', name);
 
 }
 
@@ -33,6 +34,10 @@ $(document).ready(function(){
 		console.log(data);
 	});
 
+	socket.on('playTrack', function(id){
+		playTrack(id);
+	});
+
 	SC.initialize({
 		client_id: '9ef3139dcf622c37539360edd1909e53',
 		redirect_uri: '636f66b1214404e96c75cfb83175a6f2',
@@ -51,18 +56,19 @@ $(document).ready(function(){
 	       		animateSpinnerOut();
 	       		searching = false;
 	       		tracks.forEach(function(entry,i){
-		       		$("<div class='row track "+i+"'></div>").clone().appendTo('.trackContainer');
-		       		$("<div class='twelve columns littleBoxContainer "+i+"'></div>").clone().appendTo(".row.track."+i);
+		       		$("<div class='row track "+i+"' data-track-id='"+entry.id+"' id='myTrack'></div>").clone().appendTo('.trackContainer');
+		       		$("<div class='twelve columns littleBoxContainer "+i+"'></div>").appendTo(".row.track."+i);
 		       		if(entry.artwork_url){
 		       			var artwork = entry.artwork_url.replace("large.jpg", "crop.jpg");
-		       			$("<div class='littleBoxImage "+i+"' style= 'background-image: url("+artwork+")' </div>").clone().appendTo(".twelve.columns.littleBoxContainer."+i);
+		       			$("<div class='littleBoxImage "+i+"' style= 'background-image: url("+artwork+")' </div>").appendTo(".twelve.columns.littleBoxContainer."+i);
 		       		}else{
-		       			$("<div class='littleBoxImage "+i+"' style= 'background-image: url(img/oops.png)' </div>").clone().appendTo(".twelve.columns.littleBoxContainer."+i);
+		       			$("<div class='littleBoxImage "+i+"' style= 'background-image: url(img/oops.png)' </div>").appendTo(".twelve.columns.littleBoxContainer."+i);
 		       		}	
-		       		$("<div class='littleBoxText'>"+entry.title+"</div>").clone().appendTo(".twelve.columns.littleBoxContainer."+i);
+		       		$("<div class='littleBoxText'>"+entry.title+"</div>").appendTo(".twelve.columns.littleBoxContainer."+i);
 	       		});
 			});
 		}
+
 	});
 
 	animateOnLoad();
@@ -81,7 +87,26 @@ $(document).ready(function(){
 		socket.emit('joinRoom', $(this).attr('data-room-name'));
 	});
 
+	$('.trackContainer').on('click', '#myTrack', function() {
+   		socket.emit('playTrack', {name: $('input#Btn_joinRoomBtn').attr('data-room-name'), trackId: $(this).attr('data-track-id')});
+	});
+
 });
+
+function playTrack(trackId){
+	if(currentTrack){
+		pauseCurrentTrack();
+	}
+
+	SC.stream("/tracks/"+trackId, function(sound){
+		currentTrack = sound;
+	  	sound.play();
+	});
+}
+
+function pauseCurrentTrack(){
+	currentTrack.pause()
+}
 
 function fadeOutpage(){
 	$('#main').animate({opacity: 0}, 1000);

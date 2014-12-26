@@ -49,6 +49,12 @@ io.on('connection', function (socket) {
 
 	});
 
+	socket.on('playTrack', function(data){
+		console.log(data);
+		io.to(data.name).emit('playTrack', data.trackId );
+		console.log('should play')
+	});
+
 });
 
 function validateRoom(name){
