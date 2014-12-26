@@ -38,9 +38,9 @@ io.on('connection', function (socket) {
 		/* Write to file */
 		fs.appendFile(__dirname + '/trollDB/rooms.txt', "\n"+ room, function(err) {
 		    if(err) {
-		        console.log(err);
+		        //console.log(err);
 		    } else {
-		        console.log("The file was saved!");
+		        //console.log("The file was saved!");
 		    }
 		}); 
 
@@ -63,18 +63,19 @@ io.on('connection', function (socket) {
 						/* Write to file */
 		fs.appendFile(__dirname + "/trollDB/connections.txt", "\nConnection Count: "+ connectionCount, function(err) {
 		    if(err) {
-		        console.log(err);
+		        //console.log(err);
 		    } else {
-		        console.log("The file was saved!");
+		        //console.log("The file was saved!");
 		    }
 		}); 
 
 	});
 
 	socket.on('playTrack', function(data){
-		console.log(data);
-		io.to(data.name).emit('playTrack', data.trackId );
-		console.log('should play')
+		//console.log(data);
+		//console.log('should play')
+
+		io.to(data.name).emit('playTrack', data);
 	});
 
 });

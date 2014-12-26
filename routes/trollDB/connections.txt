@@ -1,3 +1,0 @@
-Connection Count: 2Connection Count: 1Connection Count: 2
-Connection Count: 1
-Connection Count: 2

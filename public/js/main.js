@@ -2,6 +2,8 @@ var socket = io.connect();
 var tracks = [];
 var searching = false;
 var currentTrack;
+var isPlaying = false;
+var trackResult;
 
 function createRoom(name){
 
@@ -31,11 +33,19 @@ $(document).ready(function(){
 	});
 
 	socket.on('userJoined', function(data){
-		console.log(data);
+		$('#notify-icon').addClass('animated rubberBand');
+		
+		// Animation
+		$('#notify-icon').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+			$('#notify-icon').removeClass('animated rubberBand');
+		});
+
 	});
 
-	socket.on('playTrack', function(id){
-		playTrack(id);
+	socket.on('playTrack', function(data){
+		//console.log(data);
+		playTrack(data.id);
+		fillPlayer(data.artwork, data.title);
 	});
 
 	SC.initialize({
@@ -45,16 +55,20 @@ $(document).ready(function(){
 
 	$('input#searchBar').bind('input', function() {
 
-		animateSpinner();
-
 		if(!searching && $(this).val() !== ''){
 			searching = true;
-    		
+    		animateSpinner();
+
 	    	//Empty the container first before appending search results
 	    	$('.trackContainer').empty('');
+
 	       	SC.get('/tracks', { q: $(this).val(), limit: 50, artwork_url: 'crop'}, function(tracks) {
+
 	       		animateSpinnerOut();
 	       		searching = false;
+
+	       		trackResult = tracks;
+
 	       		tracks.forEach(function(entry,i){
 		       		$("<div class='row track "+i+"' data-track-id='"+entry.id+"' id='myTrack'></div>").clone().appendTo('.trackContainer');
 		       		$("<div class='twelve columns littleBoxContainer "+i+"'></div>").appendTo(".row.track."+i);
@@ -66,6 +80,7 @@ $(document).ready(function(){
 		       		}	
 		       		$("<div class='littleBoxText'>"+entry.title+"</div>").appendTo(".twelve.columns.littleBoxContainer."+i);
 	       		});
+
 			});
 		}
 
@@ -88,10 +103,70 @@ $(document).ready(function(){
 	});
 
 	$('.trackContainer').on('click', '#myTrack', function() {
-   		socket.emit('playTrack', {name: $('input#Btn_joinRoomBtn').attr('data-room-name'), trackId: $(this).attr('data-track-id')});
+
+		var index = $(this).attr('class').split(' ').pop();
+		//console.log(trackResult[index]);
+
+		var roomName = $('input#Btn_joinRoomBtn').attr('data-room-name');
+		var trackId  = $(this).attr('data-track-id');
+		var trackArtwork  = trackResult[index].artwork_url;
+		var trackTitle	 = trackResult[index].title;
+
+   		socket.emit('playTrack', {name: roomName, id: trackId, artwork: trackArtwork, title: trackTitle});
+
+	});
+
+
+	$('#link-pop-icon').click(function(){
+		if( $(".popUpBox").css('display') == 'none') {
+
+			$('.popUpBox').css('display', 'block');
+			$('.popUpBox').addClass('animated zoomIn');
+
+		} else {
+
+			$('.popUpBox').addClass('animated zoomOut');
+			$('.popUpBox').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+				$('.popUpBox').css('display', 'none');
+				$('.popUpBox').removeClass('animated zoomIn');
+				$('.popUpBox').removeClass('animated zoomOut');
+			});
+		}
+	});
+
+	$('#player-option').click(function(){
+		if(isPlaying){
+			$('#player-option').attr('src', '../img/playicon.png');
+			currentTrack.pause();
+			isPlaying = false;
+		}else{
+			$('#player-option').attr('src', '../img/pauseicon.png');
+			currentTrack.play();
+			isPlaying = true;
+		}
 	});
 
 });
+
+function fillPlayer(artwork, title){
+
+	if(artwork){
+		$('.player-iw-panel-Artwork').css('background-image',"url("+artwork+")");
+	}else{
+		$('.player-iw-panel-Artwork').css('background-image',"url(../img/oops.png)");
+	}
+
+	$('.player-iw-panel-Container').css('display','inline-block');
+
+	$('.player-iw-panel-title-text').text(title);
+
+	// Animation
+	$('.player-iw-panel-Container').addClass('animated pulse');
+	$('.player-iw-panel-Container').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+		$('.player-iw-panel-Container').removeClass('animated pulse');
+	});
+
+}
 
 function playTrack(trackId){
 	if(currentTrack){
@@ -102,10 +177,13 @@ function playTrack(trackId){
 		currentTrack = sound;
 	  	sound.play();
 	});
+
+	isPlaying = true;
+
 }
 
 function pauseCurrentTrack(){
-	currentTrack.pause()
+	currentTrack.pause();
 }
 
 function fadeOutpage(){
@@ -136,6 +214,8 @@ function animateSpinnerOut(){
 	$('#spinner').addClass('animated bounceOut');
 	$('#spinner').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 		$('#spinner').css('display', 'none');
+		$('#spinner').removeClass('animated bounceOut');
+		$('#spinner').removeClass('animated bounceIn');
 	});
 }
 

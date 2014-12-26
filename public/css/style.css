@@ -5,6 +5,15 @@ html,body{
 	width: 100%;
 }
 
+@font-face {
+    font-family: "holy";
+    src: url('../fonts/HolyMolylight.ttf') format("truetype");
+}
+
+.customfont { 
+    font-family: "holy", Verdana, Tahoma;
+}
+
 #mainBody{
 	opacity: 0;
 }
@@ -166,6 +175,35 @@ img.littleBoxImage{
 	box-shadow: 0px 3px 2px rgba(43,40,35,0.6);
 }
 
+.popUpBox{
+	right: 100px; 
+	width:auto; 
+	height: 70px; 
+	background-color: white; 
+	position: absolute;
+	border-radius: 10px;
+	top: 50px;
+	box-shadow: 0px 2px 2px rgba(43,40,35,0.3);
+	color: black;
+	font-size: 10px;
+	display: none;
+}
+
+.popUpLittleText{
+
+	text-align: center;
+	margin: 15px;
+	padding: 1px;
+	border-radius: 5px;
+	border-style: solid;
+	width: 200px;
+}
+
+input.popUpLittleText{
+	border-width: 5px;
+	border-color: #F7F7F7;
+}
+
 .row.track{
 	-webkit-transition: 0.15s;
 }
@@ -174,6 +212,61 @@ img.littleBoxImage{
 	cursor: pointer;
 	background-color: rgba(80,227,194,0.9);
 	color: white;
+}
+
+.player-iw-panel-Container{
+	width: 300px;
+	height: 40px;
+	margin-left: 30px;
+	position: absolute;
+	text-align: center;
+	display: none;
+}
+
+.player-iw-panel-Artwork{
+	float: left;
+	width: 40px;
+	height: 40px;
+	background-image: url('../img/KanyeWest.png');
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center center;
+	border-radius: 3px;
+}
+
+.player-iw-panel-Title{
+	text-align: left;
+	padding: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	color: white;
+	font-size: 11px;
+	float: left;
+	width: 150px;
+	height: 40px;
+	overflow: hidden;
+	position: relative;
+}
+
+.player-iw-panel-title-text{
+	margin: auto; 
+	position: absolute; 
+	top: 0; 
+	left: 20px; 
+	bottom: 0; 
+	right: 0;
+}
+
+.player-iw-panel-Control{
+	float: left;
+	width: 40px;
+	height: 40px;
+}
+
+img#player-option{
+	width: 20px;
+	height: 20px;
+	margin-top: 10px;
 }
 
 @-webkit-keyframes animatedBackground {
