@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var roomNames = [];
 var currentUrl = '';
+var fs = require('fs');
+var connectionCount = 0;
 
 /* GET url page. */
 router.get('/:id', function(req, res) {
@@ -33,6 +35,15 @@ io.on('connection', function (socket) {
 			roomNames.push(room);
 			socket.emit('join', room)
 
+		/* Write to file */
+		fs.appendFile(__dirname + '/trollDB/rooms.txt', "\n"+ room, function(err) {
+		    if(err) {
+		        console.log(err);
+		    } else {
+		        console.log("The file was saved!");
+		    }
+		}); 
+
 		}else{
 			socket.emit('joinError', ' Sorry, Name already exists')
 		}
@@ -42,10 +53,21 @@ io.on('connection', function (socket) {
 	socket.on('joinRoom', function(room){
 
 		socket.join(room);
-	
-		console.log('connection !');
+
+		connectionCount++;
+
+		console.log("New connection in "+ room +"'s room!");
 
 		io.to(room).emit('userJoined', 'hi im in room ' + room );
+
+						/* Write to file */
+		fs.appendFile(__dirname + "/trollDB/connections.txt", "\nConnection Count: "+ connectionCount, function(err) {
+		    if(err) {
+		        console.log(err);
+		    } else {
+		        console.log("The file was saved!");
+		    }
+		}); 
 
 	});
 
