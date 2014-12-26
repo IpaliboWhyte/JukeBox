@@ -104,7 +104,7 @@ $(window).load(function(){
 
 
 	$('input#Btn_joinRoomBtn').click(function(){
-		$('.static-confirm').css('display', 'none');
+		animateConfirmOut();
 		socket.emit('joinRoom', $(this).attr('data-room-name'));
 	});
 
@@ -154,6 +154,22 @@ $(window).load(function(){
 
 });
 
+function animateConfirmOut(){
+
+	$('.static-confirm').css({
+            '-webkit-transform': 'scale(5)',
+            '-moz-transform': 'scale(5)',
+            '-ms-transform': 'scale(5)',
+            '-o-transform': 'scale(5)',
+            'transform': 'scale(5)',
+            'opacity': '0'
+        });
+
+	setTimeout(function(){
+		$('.static-confirm').css('display', 'none');
+	},500);
+}
+
 function fillPlayer(artwork, title){
 
 	if(artwork){
@@ -165,6 +181,8 @@ function fillPlayer(artwork, title){
 	$('.player-iw-panel-Container').css('display','inline-block');
 
 	$('.player-iw-panel-title-text').text(title);
+
+	$('#player-option').attr('src', '../img/pauseicon.png');
 
 	// Animation
 	$('.player-iw-panel-Container').addClass('animated pulse');
