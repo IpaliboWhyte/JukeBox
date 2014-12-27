@@ -1,5 +1,6 @@
 var socket = io.connect();
-var audioElement = document.createElement('audio');
+var welcomeSound = document.createElement('audio');
+var exitSound = document.createElement('audio');
 var tracks = [];
 var searching = false;
 var currentTrack;
@@ -14,7 +15,8 @@ function createRoom(name){
 
 $(window).load(function(){
 
-	audioElement.setAttribute('src', '../sounds/welcome.wav');
+	welcomeSound.setAttribute('src', '../sounds/welcome.wav');
+	exitSound.setAttribute('src', '../sounds/bye.wav');
 
 	socket.on('join', function(roomName){
 
@@ -36,21 +38,25 @@ $(window).load(function(){
 	});
 
 	socket.on('userJoined', function(data){
-		audioElement.play();
+		welcomeSound.play();
+		animateNotify(data.users);
 
-		$('#notify-icon').addClass('animated rubberBand');
-		
-		// Animation
-		$('#notify-icon').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-			$('#notify-icon').removeClass('animated rubberBand');
-		});
+		if ( data.currentTrack ) {
+			//playTrack(data.currentTrack.id);
+			fillPlayer(data.currentTrack.artwork, data.currentTrack.title);
+		}
 
 	});
 
-	socket.on('playTrack', function(data){
+	socket.on('play-Track', function(data){
 		//console.log(data);
 		playTrack(data.id);
 		fillPlayer(data.artwork, data.title);
+	});
+
+	socket.on('userLeft', function(usersleft){
+		exitSound.play();
+		animateNotify(usersleft);
 	});
 
 	SC.initialize({
@@ -118,7 +124,7 @@ $(window).load(function(){
 		var trackArtwork  = trackResult[index].artwork_url;
 		var trackTitle	 = trackResult[index].title;
 
-   		socket.emit('playTrack', {name: roomName, id: trackId, artwork: trackArtwork, title: trackTitle});
+   		socket.emit('_playTrack', {name: roomName, id: trackId, artwork: trackArtwork, title: trackTitle});
 
 	});
 
@@ -197,7 +203,9 @@ function playTrack(trackId){
 		pauseCurrentTrack();
 	}
 
+
 	SC.stream("/tracks/"+trackId, function(sound){
+		sound.setPosition(60000);
 		currentTrack = sound;
 	  	sound.play();
 	});
@@ -272,4 +280,18 @@ function animateOnLoad(){
 		$('#logo').css('display', 'inline-block');
 		$('#logo').addClass('animated rubberBand');
 	},4000); 
+}
+
+function animateNotify(totalUsers){
+
+	if (totalUsers > 100) {
+		totalUsers = '99+'
+	}
+
+	$('.notification-Circle').text(totalUsers);
+	$('.notification-Box').addClass('animated rubberBand');
+	
+	$('.notification-Box').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+		$('.notification-Box').removeClass('animated rubberBand');
+	});
 }

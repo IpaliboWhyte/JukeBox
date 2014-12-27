@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var roomNames = [];
+var roomNames = {};
 var currentUrl = '';
 var fs = require('fs');
 var connectionCount = 0;
@@ -31,8 +31,17 @@ var io = require('../app');
 io.on('connection', function (socket) {
 
 	socket.on('createRoom', function(room){
+
 		if(validateRoom(room)){
-			roomNames.push(room);
+
+			roomNames[room] = {
+				users: 0, 
+				currentTrack: null
+			};
+
+			console.log(roomNames)
+			
+			//roomNames.push(room);
 			socket.emit('join', room)
 
 		/* Write to file */
@@ -53,12 +62,16 @@ io.on('connection', function (socket) {
 	socket.on('joinRoom', function(room){
 
 		socket.join(room);
+		socket.name = room;
 
+		roomNames[room].users += 1;
+
+		//For file
 		connectionCount++;
 
 		console.log("New connection in "+ room +"'s room!");
 
-		io.to(room).emit('userJoined', 'hi im in room ' + room );
+		io.to(room).emit('userJoined', roomNames[room]);
 
 						/* Write to file */
 		fs.appendFile(__dirname + "/trollDB/connections.txt", "\nConnection Count: "+ connectionCount, function(err) {
@@ -69,21 +82,35 @@ io.on('connection', function (socket) {
 		    }
 		}); 
 
+		//console.log('there are '+Object.keys(_room).length+' connections in room '+ room)
+
 	});
 
-	socket.on('playTrack', function(data){
-		//console.log(data);
-		//console.log('should play')
+	socket.on('_playTrack', function(data){
 
-		io.to(data.name).emit('playTrack', data);
+		io.to(data.name).emit('play-Track', data);
+		roomNames[data.name].currentTrack = data;
+	});
+
+	socket.on('disconnect', function() {
+		
+		if(socket.name && roomNames[socket.name].users){
+			roomNames[socket.name].users--;
+			io.to(socket.name).emit('userLeft', roomNames[socket.name].users);
+	    }
+
 	});
 
 });
 
 function validateRoom(name){
-	if (roomNames.indexOf(name) == -1 ){
+	if (!roomNames[name]){
+
+		//returns true if name doesn't exists
 		return true;
 	}else{
+
+		//returns true if name exists
 		return false;
 	}
 }

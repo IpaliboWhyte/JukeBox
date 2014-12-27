@@ -159,6 +159,28 @@ img.littleBoxImage{
 	overflow: hidden;
 }
 
+.notification-Box{
+	display: inline;
+	margin-left: 80px; 
+	margin-right:80px;
+	width: auto;
+	height: auto;
+}
+
+.notification-Circle{
+	display: inline-block;
+	position: relative;
+	background-color: #F64747;
+	width: 16px;
+	height: 16px;
+	border-radius: 8px;
+	font-size: 10px;
+	text-align: center;
+	top: -20px;
+	left: -5px;
+
+}
+
 .errorPanel{
 	position:absolute;
 	margin-left: auto;
@@ -186,7 +208,7 @@ img.littleBoxImage{
 	border-radius: 10px;
 	top: 50px;
 	box-shadow: 0px 2px 1px rgba(43,40,35,0.1);
-	color: black;
+	color: grey;
 	font-size: 10px;
 	display: none;
 }
@@ -202,8 +224,13 @@ img.littleBoxImage{
 }
 
 input.popUpLittleText{
-	border-width: 5px;
+	border-width: 0px;
 	border-color: #F7F7F7;
+}
+
+input.popUpLittleText:focus{
+	outline-width: 5px;
+    outline-color: #50E3C2;
 }
 
 .row.track{
