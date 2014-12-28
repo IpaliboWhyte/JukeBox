@@ -3,7 +3,9 @@ html(lang='en')
   head
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width')
+    meta(property="og:image" content="/img/logo_with_BG.png")
     link(rel='icon', type='image/png', href='/img/logo_Face_colored.png')
+
     title= title +' | JukeBox'
     block css
       link(rel='stylesheet', href='/css/animate.css')
@@ -18,6 +20,7 @@ html(lang='en')
       script(src='js/main.js')
   body
     block content
+    meta(property="og:title" content="Join "+ title +"Live Playlist on JukeBox")
     script.
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
