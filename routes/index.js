@@ -1,20 +1,20 @@
 var express = require('express');
 var router = express.Router();
 var roomNames = {};
-var currentUrl = '';
+var urlArg = '';
 var fs = require('fs');
 var connectionCount = 0;
 
 /* GET url page. */
 router.get('/:id', function(req, res) {
 
-	currentUrl = req.params.id;
+	urlArg = req.params.id;
 
 	// if it doesn't exist
-	if(validateRoom(currentUrl)){
-		res.send(currentUrl+ 'Sorry this doesnt exist !');
+	if(validateRoom(urlArg)){
+		res.send(urlArg+ 'Sorry this doesnt exist !');
 	}else{
-		res.render('confirm', { title: currentUrl });
+		res.render('confirm', { title: urlArg });
 	}
 
 });
@@ -110,7 +110,7 @@ function validateRoom(name){
 		return true;
 	}else{
 
-		//returns true if name exists
+		//returns false if name exists
 		return false;
 	}
 }
